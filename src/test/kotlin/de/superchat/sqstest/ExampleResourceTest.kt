@@ -1,0 +1,18 @@
+package de.superchat.sqstest
+
+import io.quarkus.test.junit.QuarkusTest
+import io.restassured.RestAssured.given
+import org.junit.jupiter.api.Test
+
+@QuarkusTest
+class ExampleResourceTest {
+
+    @Test
+    fun testHelloEndpoint() {
+        given()
+            .`when`().get("/hello")
+            .then()
+            .statusCode(200)
+    }
+
+}
