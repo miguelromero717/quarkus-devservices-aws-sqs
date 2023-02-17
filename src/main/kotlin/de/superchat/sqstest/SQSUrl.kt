@@ -21,10 +21,10 @@ interface SQSUrl {
     var sqsEnvironmentKey: String
     var queueName: String
 
-    fun fullQueueUrl(queueNameParam: String? = "$sqsEnvironmentKey-$queueName"): String {
+    fun fullQueueUrl(queueNameParam: String? = queueName): String {
         val getQueueUrlResponse: GetQueueUrlResponse = sqs.getQueueUrl(
             GetQueueUrlRequest.builder()
-                .queueName(queueNameParam)
+                .queueName("$sqsEnvironmentKey-$queueNameParam")
                 .queueOwnerAWSAccountId(awsOrgId)
                 .build()
         )
