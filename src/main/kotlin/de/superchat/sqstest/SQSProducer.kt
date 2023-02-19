@@ -28,17 +28,19 @@ class SQSProducer : SQSUrl {
         removeQueue(queueName = queueName)
     }
 
-    fun publish() {
+    fun publish(
+        payload: String? = UUID.randomUUID().toString(),
+        messageGroupId: String? = UUID.randomUUID().toString()
+    ) {
         try {
             val message = SendMessageRequest.builder()
                 .queueUrl(fullQueueUrl())
-                .messageBody(UUID.randomUUID().toString())
-                .messageGroupId(UUID.randomUUID().toString())
+                .messageBody(payload)
+                .messageGroupId(messageGroupId)
                 .build()
             sqs.sendMessage(message)
         } catch (e: Exception) {
             log.error(e.message)
-            e.printStackTrace()
         }
     }
 }

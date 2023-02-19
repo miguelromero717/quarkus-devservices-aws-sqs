@@ -15,16 +15,22 @@ class SQSConsumer : SQSUrl {
     @Inject
     override lateinit var sqs: SqsClient
 
-    fun consume() {
+    fun consume(): String {
         try {
             val messageReq = ReceiveMessageRequest.builder()
                 .queueUrl(fullQueueUrl())
                 .build()
+
             val response = sqs.receiveMessage(messageReq)
-            log.info(response.messages().firstOrNull()?.messageId())
+
+            if (response.messages().isEmpty()) {
+                return "No Message"
+            }
+
+            return response.messages().first().body()
         } catch (e: Exception) {
             log.error(e.message)
-            e.printStackTrace()
+            throw e
         }
     }
 }
